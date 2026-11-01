@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from collections.abc import Iterator
 from typing import Any
+from urllib.parse import quote
 
 from fastapi import Depends, FastAPI, HTTPException, Request, Response
 from pydantic import BaseModel, EmailStr, Field
@@ -258,5 +259,49 @@ def create_app(settings: Settings | None = None, registry: Registry | None = Non
             input=body.input,
         )
         return await reg.run(entry, req)
+
+    @app.api_route("/api/agents/{slug}/x/{path:path}", methods=["GET", "POST"])
+    async def agent_extra(
+        slug: str,
+        path: str,
+        request: Request,
+        db: Session = Depends(db_session),
+        reg: Registry = Depends(get_registry),
+    ) -> Response:
+        """An agent's own endpoints (e.g. bank sign-in for Bills), for renters only.
+
+        Only the body, query string and content type are passed on. The user headers are
+        always set here, from the session, so the browser can't pretend to be someone else.
+        """
+        user = auth.require_user(db, request)
+        entry = agent_or_404(reg, slug)
+        rental = db.scalars(
+            select(Rental).where(Rental.user_id == user.id, Rental.agent_slug == slug)
+        ).first()
+        if rental is None:
+            raise _err(403, "not_rented", "You'll need to rent this helper before using it.")
+        segments = path.split("/")
+        if not path or any(seg in ("", ".", "..") for seg in segments) or "\\" in path:
+            raise _err(404, "not_found", "That page doesn't exist.")
+        if entry.manifest.location != "local" or not entry.has_extras:
+            raise _err(404, "not_found", "That page doesn't exist.")
+        resp = await reg.forward_extra(
+            entry,
+            request.method,
+            path,
+            await request.body(),
+            request.url.query,
+            {
+                "X-Rent-User-Id": user.id,
+                "X-Rent-User-Name": quote(user.display_name),
+                "X-Rent-Rental-Id": rental.id,
+            },
+            request.headers.get("content-type"),
+        )
+        return Response(
+            content=resp.content,
+            status_code=resp.status_code,
+            media_type=resp.headers.get("content-type"),
+        )
 
     return app

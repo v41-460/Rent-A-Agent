@@ -1,0 +1,6 @@
+{
+  "name": "rent-an-agent",
+  "private": true,
+  "description": "npm workspace root, so agent pages in agents/*/web resolve the same packages as the web app.",
+  "workspaces": ["platform/web"]
+}

@@ -112,9 +112,13 @@ Every agent serves:
 - `POST /run`: request `{"user": {"id", "display_name"}, "rental_id", "input": {...}}`,
   response `{"status": "ok" | "needs_input" | "error", "message", "blocks": [...]}`.
 
-Extra endpoints beyond these (e.g. bills needs some for bank sign-in) are not supported
-yet. Claude Code will add them with the bills agent (T-04) and update this section; until
-then, do everything through `/run`.
+**Extra endpoints (proposed, awaiting Vai's approval).** A local agent may also export
+`extra_router` (a FastAPI `APIRouter`) for things `/run` can't do, like Bills' bank sign-in.
+The platform serves it at `/api/agents/<slug>/x/<path>`, only to logged-in people who rented
+the agent, and passes on just the body, query string and content type. It always sets
+`X-Rent-User-Id`, `X-Rent-User-Name` (URL-encoded) and `X-Rent-Rental-Id` itself, so the
+browser can't pretend to be someone else. Paths with `.` or `..` segments are refused.
+Remote agents can't have extra endpoints yet. Prefer `/run` and blocks whenever they're enough.
 
 ### Blocks
 
@@ -141,6 +145,11 @@ agents/<slug>/
     tests/
   web/                    (optional; only if has_custom_page is true)
 ```
+
+A custom page is a React component, `export default function Page({ apiBase })`, where
+`apiBase` is where its extra endpoints are served. Add one line for it to
+`platform/web/lib/customPages.tsx` (ask Claude Code). The repo root is an npm workspace,
+so agent pages use the same packages as the web app: run `npm install` at the repo root.
 
 - The Python package name is the slug with `-` replaced by `_`, plus `_agent`
   (`real-estate` -> `real_estate_agent`). This keeps agents from clashing.

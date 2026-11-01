@@ -20,12 +20,14 @@ uv pip install -r requirements-dev.txt
 uvicorn rent_platform.main:create_app --factory --reload --port 8000
 ```
 
-Web (Node 22):
+To run real agents, also install their extra packages, e.g. for Bills:
+`uv pip install -r ../../agents/bills/backend/requirements.txt`.
+
+Web (Node 22). The repo root is an npm workspace, so install there:
 
 ```bash
-cd platform/web
-npm install
-npm run dev            # http://localhost:3000, forwards /api/* to the backend
+npm install                     # at the repo root
+npm run dev -w platform/web     # http://localhost:3000, forwards /api/* to the backend
 ```
 
 The marketplace lists every `agents/*/manifest.json`. To try renting and running before
@@ -41,7 +43,7 @@ Settings (all optional for local use) are in the root [.env.example](../.env.exa
 
 ```bash
 cd platform/backend && pytest && ruff check . && ruff format --check .
-cd platform/web && npm run typecheck && npm test && npm run build
+npm run typecheck -w platform/web && npm test -w platform/web && npm run build -w platform/web
 ```
 
 ## API
@@ -56,6 +58,7 @@ cd platform/web && npm run typecheck && npm test && npm run build
 | POST | `/api/agents/{slug}/rent` | Rent; paid helpers record a **mock** payment |
 | GET | `/api/rentals` | My helpers |
 | POST | `/api/agents/{slug}/run` | Run a rented helper: `{"input": {...}}` -> blocks |
+| GET/POST | `/api/agents/{slug}/x/{path}` | An agent's own endpoints (renters only; see AGENTS.md) |
 | GET | `/api/health` | Status, plus any agents that failed to load |
 
 Payments are mocked: they always succeed and nothing is charged. Each one is still saved
