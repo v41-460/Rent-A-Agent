@@ -1,0 +1,15 @@
+{
+  "interface_version": "1",
+  "slug": "subscriptions",
+  "name": "Subscription Killer",
+  "description": "Find the subscriptions you pay for, what they cost each year, and how to cancel them.",
+  "long_description": "Uses the bills found by Bills on Screen to pick out subscriptions such as streaming, apps and memberships. For each one you'll see what it costs per month and per year, and simple step-by-step instructions to cancel it if you want to. It never cancels anything for you.",
+  "icon": "✂️",
+  "owner": "claude",
+  "version": "0.1.0",
+  "pricing": { "model": "monthly", "amount_cents": 299, "currency": "USD" },
+  "status": "coming_soon",
+  "location": "local",
+  "base_url": null,
+  "has_custom_page": false
+}
