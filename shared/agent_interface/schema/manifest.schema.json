@@ -1,0 +1,146 @@
+{
+  "$defs": {
+    "Pricing": {
+      "additionalProperties": false,
+      "description": "What renting the agent costs. Payments are mocked for now; amounts are still real numbers.",
+      "properties": {
+        "amount_cents": {
+          "description": "0 when model is 'free'.",
+          "minimum": 0,
+          "title": "Amount Cents",
+          "type": "integer"
+        },
+        "currency": {
+          "const": "USD",
+          "default": "USD",
+          "title": "Currency",
+          "type": "string"
+        },
+        "model": {
+          "enum": [
+            "free",
+            "monthly",
+            "one_time"
+          ],
+          "title": "Model",
+          "type": "string"
+        }
+      },
+      "required": [
+        "model",
+        "amount_cents"
+      ],
+      "title": "Pricing",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "base_url": {
+      "anyOf": [
+        {
+          "format": "uri",
+          "maxLength": 2083,
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Required when location is 'remote', e.g. Hermes on AWS.",
+      "title": "Base Url"
+    },
+    "description": {
+      "description": "One plain sentence, no jargon.",
+      "maxLength": 140,
+      "minLength": 10,
+      "title": "Description",
+      "type": "string"
+    },
+    "has_custom_page": {
+      "default": false,
+      "description": "True if the agent ships its own page in agents/<slug>/web/ instead of relying only on blocks.",
+      "title": "Has Custom Page",
+      "type": "boolean"
+    },
+    "icon": {
+      "description": "An emoji, or a path to an .svg/.png inside the agent folder.",
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Icon",
+      "type": "string"
+    },
+    "interface_version": {
+      "const": "1",
+      "default": "1",
+      "title": "Interface Version",
+      "type": "string"
+    },
+    "location": {
+      "default": "local",
+      "enum": [
+        "local",
+        "remote"
+      ],
+      "title": "Location",
+      "type": "string"
+    },
+    "long_description": {
+      "default": "",
+      "maxLength": 2000,
+      "title": "Long Description",
+      "type": "string"
+    },
+    "name": {
+      "maxLength": 40,
+      "minLength": 2,
+      "title": "Name",
+      "type": "string"
+    },
+    "owner": {
+      "enum": [
+        "claude",
+        "codex",
+        "grok",
+        "hermes"
+      ],
+      "title": "Owner",
+      "type": "string"
+    },
+    "pricing": {
+      "$ref": "#/$defs/Pricing"
+    },
+    "slug": {
+      "pattern": "^[a-z][a-z0-9-]{1,39}$",
+      "title": "Slug",
+      "type": "string"
+    },
+    "status": {
+      "default": "coming_soon",
+      "enum": [
+        "available",
+        "coming_soon"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "version": {
+      "default": "0.1.0",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "title": "Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "slug",
+    "name",
+    "description",
+    "icon",
+    "owner",
+    "pricing"
+  ],
+  "title": "Manifest",
+  "type": "object"
+}

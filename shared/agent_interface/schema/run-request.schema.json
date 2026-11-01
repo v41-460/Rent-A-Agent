@@ -1,0 +1,45 @@
+{
+  "$defs": {
+    "RunUser": {
+      "additionalProperties": false,
+      "description": "Who is using the agent. Agents never see passwords or emails.",
+      "properties": {
+        "display_name": {
+          "title": "Display Name",
+          "type": "string"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "display_name"
+      ],
+      "title": "RunUser",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "input": {
+      "additionalProperties": true,
+      "title": "Input",
+      "type": "object"
+    },
+    "rental_id": {
+      "title": "Rental Id",
+      "type": "string"
+    },
+    "user": {
+      "$ref": "#/$defs/RunUser"
+    }
+  },
+  "required": [
+    "user",
+    "rental_id"
+  ],
+  "title": "RunRequest",
+  "type": "object"
+}

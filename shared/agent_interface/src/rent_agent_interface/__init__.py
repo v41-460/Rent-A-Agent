@@ -1,0 +1,50 @@
+"""Shared agent interface for Rent an Agent. See models.py and AGENTS.md."""
+
+from .conformance import check_agent_app, load_manifest
+from .models import (
+    INTERFACE_VERSION,
+    Action,
+    ActionsBlock,
+    Block,
+    FormBlock,
+    FormField,
+    HeadingBlock,
+    Health,
+    Item,
+    ItemsBlock,
+    LinkBlock,
+    Manifest,
+    NoticeBlock,
+    Pricing,
+    RunRequest,
+    RunResponse,
+    RunUser,
+    TableBlock,
+    TextBlock,
+)
+from .router import make_agent_router
+
+__all__ = [
+    "INTERFACE_VERSION",
+    "Action",
+    "ActionsBlock",
+    "Block",
+    "FormBlock",
+    "FormField",
+    "Health",
+    "HeadingBlock",
+    "Item",
+    "ItemsBlock",
+    "LinkBlock",
+    "Manifest",
+    "NoticeBlock",
+    "Pricing",
+    "RunRequest",
+    "RunResponse",
+    "RunUser",
+    "TableBlock",
+    "TextBlock",
+    "check_agent_app",
+    "load_manifest",
+    "make_agent_router",
+]

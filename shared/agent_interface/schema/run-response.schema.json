@@ -1,0 +1,396 @@
+{
+  "$defs": {
+    "Action": {
+      "additionalProperties": false,
+      "description": "A button. Pressing it calls /run again with ``input`` merged in.",
+      "properties": {
+        "confirm": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "If set, the platform asks this question before sending.",
+          "title": "Confirm"
+        },
+        "input": {
+          "additionalProperties": true,
+          "title": "Input",
+          "type": "object"
+        },
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "style": {
+          "default": "primary",
+          "enum": [
+            "primary",
+            "secondary",
+            "danger"
+          ],
+          "title": "Style",
+          "type": "string"
+        }
+      },
+      "required": [
+        "label"
+      ],
+      "title": "Action",
+      "type": "object"
+    },
+    "ActionsBlock": {
+      "additionalProperties": false,
+      "properties": {
+        "actions": {
+          "items": {
+            "$ref": "#/$defs/Action"
+          },
+          "title": "Actions",
+          "type": "array"
+        },
+        "type": {
+          "const": "actions",
+          "default": "actions",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "actions"
+      ],
+      "title": "ActionsBlock",
+      "type": "object"
+    },
+    "FormBlock": {
+      "additionalProperties": false,
+      "description": "Ask the user for input. Submitting calls /run with the field values as ``input``.",
+      "properties": {
+        "fields": {
+          "items": {
+            "$ref": "#/$defs/FormField"
+          },
+          "title": "Fields",
+          "type": "array"
+        },
+        "submit_label": {
+          "default": "Continue",
+          "title": "Submit Label",
+          "type": "string"
+        },
+        "type": {
+          "const": "form",
+          "default": "form",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "fields"
+      ],
+      "title": "FormBlock",
+      "type": "object"
+    },
+    "FormField": {
+      "additionalProperties": false,
+      "properties": {
+        "help": {
+          "default": "",
+          "title": "Help",
+          "type": "string"
+        },
+        "kind": {
+          "default": "text",
+          "enum": [
+            "text",
+            "number",
+            "date",
+            "textarea",
+            "email"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "required": {
+          "default": true,
+          "title": "Required",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "name",
+        "label"
+      ],
+      "title": "FormField",
+      "type": "object"
+    },
+    "HeadingBlock": {
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "title": "Text",
+          "type": "string"
+        },
+        "type": {
+          "const": "heading",
+          "default": "heading",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "text"
+      ],
+      "title": "HeadingBlock",
+      "type": "object"
+    },
+    "Item": {
+      "additionalProperties": false,
+      "properties": {
+        "subtitle": {
+          "default": "",
+          "title": "Subtitle",
+          "type": "string"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "value": {
+          "default": "",
+          "description": "Right-aligned, e.g. '$15.49 / month'.",
+          "title": "Value",
+          "type": "string"
+        }
+      },
+      "required": [
+        "title"
+      ],
+      "title": "Item",
+      "type": "object"
+    },
+    "ItemsBlock": {
+      "additionalProperties": false,
+      "description": "A list of things, e.g. bills. Preferred over tables on small screens.",
+      "properties": {
+        "empty_text": {
+          "default": "Nothing to show yet.",
+          "title": "Empty Text",
+          "type": "string"
+        },
+        "items": {
+          "items": {
+            "$ref": "#/$defs/Item"
+          },
+          "title": "Items",
+          "type": "array"
+        },
+        "type": {
+          "const": "items",
+          "default": "items",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "items"
+      ],
+      "title": "ItemsBlock",
+      "type": "object"
+    },
+    "LinkBlock": {
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "type": {
+          "const": "link",
+          "default": "link",
+          "title": "Type",
+          "type": "string"
+        },
+        "url": {
+          "format": "uri",
+          "maxLength": 2083,
+          "minLength": 1,
+          "title": "Url",
+          "type": "string"
+        }
+      },
+      "required": [
+        "label",
+        "url"
+      ],
+      "title": "LinkBlock",
+      "type": "object"
+    },
+    "NoticeBlock": {
+      "additionalProperties": false,
+      "description": "A coloured box. Use 'warning' for anything involving money or risk.",
+      "properties": {
+        "level": {
+          "default": "info",
+          "enum": [
+            "info",
+            "success",
+            "warning",
+            "danger"
+          ],
+          "title": "Level",
+          "type": "string"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        },
+        "type": {
+          "const": "notice",
+          "default": "notice",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "text"
+      ],
+      "title": "NoticeBlock",
+      "type": "object"
+    },
+    "TableBlock": {
+      "additionalProperties": false,
+      "properties": {
+        "columns": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Columns",
+          "type": "array"
+        },
+        "rows": {
+          "items": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "title": "Rows",
+          "type": "array"
+        },
+        "type": {
+          "const": "table",
+          "default": "table",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "columns",
+        "rows"
+      ],
+      "title": "TableBlock",
+      "type": "object"
+    },
+    "TextBlock": {
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "title": "Text",
+          "type": "string"
+        },
+        "type": {
+          "const": "text",
+          "default": "text",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "text"
+      ],
+      "title": "TextBlock",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "blocks": {
+      "items": {
+        "discriminator": {
+          "mapping": {
+            "actions": "#/$defs/ActionsBlock",
+            "form": "#/$defs/FormBlock",
+            "heading": "#/$defs/HeadingBlock",
+            "items": "#/$defs/ItemsBlock",
+            "link": "#/$defs/LinkBlock",
+            "notice": "#/$defs/NoticeBlock",
+            "table": "#/$defs/TableBlock",
+            "text": "#/$defs/TextBlock"
+          },
+          "propertyName": "type"
+        },
+        "oneOf": [
+          {
+            "$ref": "#/$defs/HeadingBlock"
+          },
+          {
+            "$ref": "#/$defs/TextBlock"
+          },
+          {
+            "$ref": "#/$defs/NoticeBlock"
+          },
+          {
+            "$ref": "#/$defs/ItemsBlock"
+          },
+          {
+            "$ref": "#/$defs/TableBlock"
+          },
+          {
+            "$ref": "#/$defs/LinkBlock"
+          },
+          {
+            "$ref": "#/$defs/ActionsBlock"
+          },
+          {
+            "$ref": "#/$defs/FormBlock"
+          }
+        ]
+      },
+      "title": "Blocks",
+      "type": "array"
+    },
+    "message": {
+      "default": "",
+      "description": "Short plain-language summary.",
+      "title": "Message",
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "ok",
+        "needs_input",
+        "error"
+      ],
+      "title": "Status",
+      "type": "string"
+    }
+  },
+  "required": [
+    "status"
+  ],
+  "title": "RunResponse",
+  "type": "object"
+}
