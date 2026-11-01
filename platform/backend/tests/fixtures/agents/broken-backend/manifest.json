@@ -1,0 +1,1 @@
+{"slug": "broken-backend", "name": "Broken Backend", "description": "Its Python code fails to import, on purpose.", "icon": "💥", "owner": "grok", "pricing": {"model": "free", "amount_cents": 0}, "status": "available"}

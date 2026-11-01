@@ -1,0 +1,1 @@
+{"slug": "far-away", "name": "Far Away Helper", "description": "Runs on another server, like Hermes on AWS.", "icon": "🛰️", "owner": "hermes", "pricing": {"model": "free", "amount_cents": 0}, "status": "available", "location": "remote", "base_url": "https://remote.example.test"}
