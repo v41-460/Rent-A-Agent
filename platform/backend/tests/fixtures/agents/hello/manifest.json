@@ -1,0 +1,1 @@
+{"slug": "hello", "name": "Hello Helper", "description": "Says hello so you can see how helpers work.", "icon": "👋", "owner": "claude", "pricing": {"model": "free", "amount_cents": 0}, "status": "available"}

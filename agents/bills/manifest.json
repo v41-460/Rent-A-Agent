@@ -1,0 +1,15 @@
+{
+  "interface_version": "1",
+  "slug": "bills",
+  "name": "Bills on Screen",
+  "description": "See all your regular bills in one place, with how much each costs and when it's due.",
+  "long_description": "Connect your bank once and this helper finds the bills you pay regularly, like electricity, phone, insurance and streaming. For each one you'll see the amount, the next due date and how often it comes. It only looks. It never moves money.\n\nThis practice version uses a pretend bank, so you can try it safely.",
+  "icon": "🧾",
+  "owner": "claude",
+  "version": "0.1.0",
+  "pricing": { "model": "monthly", "amount_cents": 499, "currency": "USD" },
+  "status": "coming_soon",
+  "location": "local",
+  "base_url": null,
+  "has_custom_page": true
+}

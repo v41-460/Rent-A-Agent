@@ -34,6 +34,6 @@ pytest
 python -m rent_agent_interface.validate_all ../..
 ```
 
-How to run the platform will be added here with the marketplace (task T-01 to T-03).
+How to run the marketplace: see [platform/README.md](platform/README.md).
 
 This repository is public. Never commit secrets or real personal data (see AGENTS.md).

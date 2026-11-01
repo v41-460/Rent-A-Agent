@@ -112,8 +112,9 @@ Every agent serves:
 - `POST /run`: request `{"user": {"id", "display_name"}, "rental_id", "input": {...}}`,
   response `{"status": "ok" | "needs_input" | "error", "message", "blocks": [...]}`.
 
-An agent may add its own extra endpoints (e.g. bills needs one for bank sign-in). They are
-served under the same prefix and get the same rental check.
+Extra endpoints beyond these (e.g. bills needs some for bank sign-in) are not supported
+yet. Claude Code will add them with the bills agent (T-04) and update this section; until
+then, do everything through `/run`.
 
 ### Blocks
 
@@ -143,8 +144,13 @@ agents/<slug>/
 
 - The Python package name is the slug with `-` replaced by `_`, plus `_agent`
   (`real-estate` -> `real_estate_agent`). This keeps agents from clashing.
-- The platform mounts `router` at `/api/agents/<slug>` and checks the user has rented the
-  agent before any request reaches it. Agents never see passwords or emails.
+- The platform loads `router` into its own small app and calls it in-process with the same
+  HTTP requests a remote agent gets. The browser only ever calls the platform
+  (`POST /api/agents/<slug>/run` with `{"input": {...}}`); the platform checks the user is
+  logged in and has rented the agent, then fills in `user` and `rental_id` itself. Agents
+  never see passwords or emails, and the browser can't pretend to be another user.
+- A local agent whose code fails to import is shown as "Coming soon" and reported at
+  `GET /api/health`; it never takes the marketplace down.
 - Agents store their own data in their own place (own tables prefixed `<slug>_`, or own
   SQLite file under `AGENT_DATA_DIR`). Never read or write platform tables or another
   agent's data. Declared exception: `subscriptions` reads from `bills`.

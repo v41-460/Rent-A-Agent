@@ -1,0 +1,1 @@
+{"slug": "paid-helper", "name": "Paid Helper", "description": "A paid helper used to test mock payments.", "icon": "💵", "owner": "claude", "pricing": {"model": "monthly", "amount_cents": 499}, "status": "available"}

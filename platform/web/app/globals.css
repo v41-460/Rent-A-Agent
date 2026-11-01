@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+/* Colors chosen for WCAG AA or better against their backgrounds. */
+@theme {
+  --color-page: #faf8f4;
+  --color-card: #ffffff;
+  --color-ink: #1c1b19;
+  --color-muted: #4a4743;
+  --color-line: #d9d4cc;
+  --color-action: #1e4fd8;
+  --color-action-dark: #173ea9;
+  --color-calm: #1f6b3a;
+  --color-calm-bg: #e9f5ec;
+  --color-soon: #8a4b00;
+  --color-soon-bg: #fff3e0;
+  --color-attention: #9b1c1c;
+  --color-attention-bg: #fdecec;
+  --font-sans: ui-sans-serif, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    sans-serif;
+}
+
+/* Everything is larger than a typical website: 1rem = 20px. */
+html {
+  font-size: 125%;
+}
+
+body {
+  background: var(--color-page);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  line-height: 1.5;
+}
+
+:focus-visible {
+  outline: 4px solid var(--color-action);
+  outline-offset: 3px;
+}
+
+/* Buttons and inputs shared across the marketplace. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3rem;
+  padding: 0.6rem 1.4rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  font-size: 1.05rem;
+  border: 2px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+}
+.btn-primary { background: var(--color-action); color: #fff; }
+.btn-primary:hover { background: var(--color-action-dark); }
+.btn-secondary { background: var(--color-card); color: var(--color-ink); border-color: var(--color-line); }
+.btn-danger { background: var(--color-attention); color: #fff; }
+.btn:disabled { opacity: 0.6; cursor: not-allowed; }
+.field {
+  width: 100%;
+  min-height: 3rem;
+  padding: 0.5rem 0.9rem;
+  border: 2px solid var(--color-line);
+  border-radius: 0.6rem;
+  background: var(--color-card);
+  font-size: 1.05rem;
+}
