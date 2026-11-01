@@ -8,7 +8,7 @@
   "owner": "claude",
   "version": "0.1.0",
   "pricing": { "model": "monthly", "amount_cents": 499, "currency": "USD" },
-  "status": "coming_soon",
+  "status": "available",
   "location": "local",
   "base_url": null,
   "has_custom_page": true

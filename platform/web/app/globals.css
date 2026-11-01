@@ -1,4 +1,6 @@
 @import "tailwindcss";
+/* Agent pages live outside this app (agents/<slug>/web); scan them for classes too. */
+@source "../../../agents/*/web";
 
 /* Colors chosen for WCAG AA or better against their backgrounds. */
 @theme {
