@@ -33,6 +33,7 @@ class AgentEntry:
     app: FastAPI | None = None  # local agents only
     router: APIRouter | None = None
     load_error: str | None = None
+    has_extras: bool = False
 
     @property
     def slug(self) -> str:
@@ -95,6 +96,12 @@ class Registry:
             return
         app = FastAPI(title=entry.manifest.name)
         app.include_router(router)
+        extra = getattr(mod, "extra_router", None)
+        if isinstance(extra, APIRouter):
+            # Agent-specific endpoints (e.g. bank sign-in), reached only through the
+            # platform's /api/agents/<slug>/x/... proxy, which checks login and rental.
+            app.include_router(extra, prefix="/x")
+            entry.has_extras = True
         entry.app = app
         entry.router = router
 
@@ -112,6 +119,24 @@ class Registry:
             base_url="http://agent",
             timeout=RUN_TIMEOUT_SECONDS,
         )
+
+    async def forward_extra(
+        self,
+        entry: AgentEntry,
+        method: str,
+        path: str,
+        body: bytes,
+        query: str,
+        user_headers: dict[str, str],
+        content_type: str | None,
+    ) -> httpx.Response:
+        """Send a browser request on to a local agent's extra endpoint as the given user."""
+        headers = dict(user_headers)
+        if content_type:
+            headers["Content-Type"] = content_type
+        url = f"/x/{path}" + (f"?{query}" if query else "")
+        async with self._client(entry) as client:
+            return await client.request(method, url, content=body, headers=headers)
 
     async def run(self, entry: AgentEntry, request: RunRequest) -> RunResponse:
         body = request.model_dump_json().encode()
