@@ -1,0 +1,4 @@
+-r requirements.txt
+-e ../../../shared/agent_interface
+pytest==8.4.2
+ruff==0.13.3

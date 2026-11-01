@@ -1,0 +1,6 @@
+# Bills agent dependencies beyond the platform's (see AGENTS.md).
+plaid-python==45.0.0
+cryptography==50.0.2
+python-dateutil==2.9.0.post0
+sqlalchemy==2.1.3
+pydantic-settings==2.15.0
